@@ -44,10 +44,11 @@ public class GridManager : Singleton<GridManager>
     public int ActivatedColIdx => activatedColIdx;
     int activatedColIdx = -1; //which row can be selcted?
 
-
+    int numOfTileType = 0; //this will be different by difficulty
 
     /////////////////////////////Buffer////////////////////////////
     List<GameObject> listOfBuffer = new List<GameObject>();
+    int bufferEmptyIdx = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////
     //Comp
@@ -65,20 +66,20 @@ public class GridManager : Singleton<GridManager>
     // Start is called before the first frame update
     void Start()
     {
-        //switch (GlobalData.instance.difficulty)
-        //{
-        //    case GlobalData.EDifficulty.EASY:
-        //        matchNum = (int)GlobalData.EDifficulty.EASY;
-        //        break;
+        switch (GlobalData.instance.difficulty)
+        {
+            case GlobalData.EDifficulty.EASY:
+                numOfTileType = 4;
+                break;
 
-        //    case GlobalData.EDifficulty.MEDIUM:
-        //        matchNum = (int)GlobalData.EDifficulty.MEDIUM;
-        //        break;
+            case GlobalData.EDifficulty.MEDIUM:
+                numOfTileType = 5;
+                break;
 
-        //    case GlobalData.EDifficulty.HARD:
-        //        matchNum = (int)GlobalData.EDifficulty.HARD;
-        //        break;
-        //}
+            case GlobalData.EDifficulty.HARD:
+                numOfTileType = 5;
+                break;
+        }
 
 
         GenerateGrid();
@@ -147,8 +148,8 @@ public class GridManager : Singleton<GridManager>
                 //}
 
                 ////pick random sprite from possible sprites
-                //int randomIdx = Random.Range(0, possibleTileSprite.Count);
-                //tileComp.SetTileSprite(possibleTileSprite[randomIdx]);
+                int randomIdx = Random.Range(0, numOfTileType);
+                tileComp.SetTileSprite(tileSprites[randomIdx]);
                 //////////////////////////////////////////////////////////////////////////////
 
                 //Set the position of tile
@@ -243,6 +244,7 @@ public class GridManager : Singleton<GridManager>
         {
             //create one tile
             GameObject tileGameObject = Instantiate(bufferTilePrefab);
+            listOfBuffer.Add(tileGameObject);
 
             //Set the size of tile
             tileGameObject.transform.localScale = bufferTileSize;
@@ -277,6 +279,13 @@ public class GridManager : Singleton<GridManager>
         Vector3 pos = GetTilePos(row, col);
         pos.z = -3.0f;
         selectingTileIndication.transform.position = pos;
+    }
+
+    public void SelectTile(int row, int col)
+    {
+        //add selected tile to buffer
+        listOfBuffer[bufferEmptyIdx].GetComponent<SpriteRenderer>().sprite = grid[row, col].SpriteRenderer.sprite;
+        ++bufferEmptyIdx;
     }
 
     //public void SwapWithSelectedTile(Tile currentTile)

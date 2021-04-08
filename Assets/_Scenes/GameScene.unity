@@ -663,7 +663,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 78b240616bd4b2b41867a0993ca23e7b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f77b8d9896f311418c91e680d58e08e, type: 3}
   m_Color: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -682,8 +682,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576223856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.3667, y: 10.0447, z: 0}
-  m_LocalScale: {x: 3.1366389, y: 0.6890311, z: 1}
+  m_LocalPosition: {x: 3.73, y: 8.88, z: 0}
+  m_LocalScale: {x: 14.954554, y: 4.080718, z: 1}
   m_Children:
   - {fileID: 718018635}
   m_Father: {fileID: 0}
@@ -1169,7 +1169,7 @@ Transform:
   m_GameObject: {fileID: 718018634}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.250142, y: 3.168696, z: 1}
+  m_LocalScale: {x: 0.85116, y: 0.6364, z: 1}
   m_Children: []
   m_Father: {fileID: 576223858}
   m_RootOrder: 0
@@ -2060,8 +2060,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094516805}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0029, y: 0.0246, z: 0}
-  m_LocalScale: {x: 4.1137977, y: 3.890896, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.84293, y: 0.81343, z: 1}
   m_Children: []
   m_Father: {fileID: 1999640391}
   m_RootOrder: 0
@@ -2088,16 +2088,14 @@ MonoBehaviour:
   selectingTileIndicationPrefab: {fileID: 3737890216022361941, guid: a29de929410de5f45b05768821dcb906, type: 3}
   tilePrefab: {fileID: 3737890216022361941, guid: be41b1333dae43a4e8c6ca5c49451842, type: 3}
   tileSprites:
-  - {fileID: 21300000, guid: 65b9e9af9afdd7747b2bc05a09e09c40, type: 3}
-  - {fileID: 21300000, guid: 338ea698f73681049ae805b1a0a14311, type: 3}
-  - {fileID: 21300000, guid: 536b4b65e451c554b9f687265741fba6, type: 3}
-  - {fileID: 21300000, guid: 76b0778ca4cd6f546a69d9c6087ea55a, type: 3}
-  - {fileID: 21300000, guid: 73973d1bceeca674db63e6b69b96b8f1, type: 3}
-  - {fileID: 21300000, guid: 6304a9f7fb50244449198bf288db46f0, type: 3}
-  - {fileID: 21300000, guid: fbfa46de91261bf4ca21500046e09649, type: 3}
+  - {fileID: 21300000, guid: 462182bbf9da16548abb0a94f44f0ef3, type: 3}
+  - {fileID: 21300000, guid: f9063b5ff6d98c74f8903af97fc31c9f, type: 3}
+  - {fileID: 21300000, guid: afe94c6c87824a5448bd683b8910cb4b, type: 3}
+  - {fileID: 21300000, guid: 956e5a0fa4d143e4d85ede52c4dc7786, type: 3}
+  - {fileID: 21300000, guid: c06ea8c4142d2444084ad19098d21433, type: 3}
   bufferGameObject: {fileID: 718018634}
   bufferTilePrefab: {fileID: 3737890216022361941, guid: 037f7f691fafbb44a91e2d963cde07ff, type: 3}
-  bufferCount: 6
+  bufferCount: 4
   selectedTile: {fileID: 0}
   isProcessing: 0
 --- !u!212 &1094516808
@@ -3106,7 +3104,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 78b240616bd4b2b41867a0993ca23e7b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f77b8d9896f311418c91e680d58e08e, type: 3}
   m_Color: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3125,8 +3123,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999640389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.03, y: 0.24, z: 0}
-  m_LocalScale: {x: 3.8158457, y: 2.603, z: 1}
+  m_LocalPosition: {x: -13.8583, y: 0.24, z: 0}
+  m_LocalScale: {x: 16.588104, y: 11.930069, z: 1}
   m_Children:
   - {fileID: 1094516806}
   m_Father: {fileID: 0}
@@ -3309,6 +3307,10 @@ PrefabInstance:
     - target: {fileID: 4044391618894205451, guid: 93c080a3982ccae47969edad9ec0bf0c, type: 3}
       propertyPath: m_Name
       value: GlobalData
+      objectReference: {fileID: 0}
+    - target: {fileID: 6856901583471987692, guid: 93c080a3982ccae47969edad9ec0bf0c, type: 3}
+      propertyPath: difficulty
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93c080a3982ccae47969edad9ec0bf0c, type: 3}

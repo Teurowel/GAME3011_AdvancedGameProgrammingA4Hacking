@@ -7,7 +7,10 @@ public class Tile : MonoBehaviour
     public int rowIdx = 0;
     public int colIdx = 0;
 
+
+
     //Comp
+    public SpriteRenderer SpriteRenderer => spriteRenderer;
     SpriteRenderer spriteRenderer = null;
 
     private void Awake()
@@ -27,6 +30,13 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
+        //Check activated row and col and then set tile indication
+        if (GridManager.instance.ActivatedRowIdx == rowIdx ||
+            GridManager.instance.ActivatedColIdx == colIdx)
+        {
+            GridManager.instance.SelectTile(rowIdx, colIdx);
+        }
+
         //if(GlobalData.instance.GetGameOver() == true)
         //{
         //    return;
@@ -114,11 +124,10 @@ public class Tile : MonoBehaviour
         colIdx = col;
     }
 
-    //public void SetTileSprite(Sprite _tileSprite)
-    //{
-    //    tileSprite = _tileSprite;
-    //    spriteRenderer.sprite = _tileSprite;
-    //}
+    public void SetTileSprite(Sprite _tileSprite)
+    {
+        spriteRenderer.sprite = _tileSprite;
+    }
 
     //public IEnumerator MoveToPosToMove()
     //{
