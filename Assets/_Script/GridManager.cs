@@ -18,6 +18,11 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] GameObject tilePrefab;
     [SerializeField] List<Sprite> tileSprites;
 
+    [Header("Buffer Setting")]
+    [SerializeField] GameObject bufferGameObject;
+    [SerializeField] GameObject bufferTilePrefab;
+    [SerializeField] int bufferCount = 4;
+
     Tile[,] grid;
 
     public Tile selectedTile = null;
@@ -39,6 +44,12 @@ public class GridManager : Singleton<GridManager>
     public int ActivatedColIdx => activatedColIdx;
     int activatedColIdx = -1; //which row can be selcted?
 
+
+
+    /////////////////////////////Buffer////////////////////////////
+    List<GameObject> listOfBuffer = new List<GameObject>();
+
+    ////////////////////////////////////////////////////////////////////////////////////
     //Comp
     SpriteRenderer spriteRendrer;
 
@@ -72,16 +83,12 @@ public class GridManager : Singleton<GridManager>
 
         GenerateGrid();
         GenerateSelectingIndication();
+        GenerateBuffer();
 
         //Active last row
         activatedRowIdx = gridRow - 1;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void GenerateGrid()
     {
@@ -96,8 +103,9 @@ public class GridManager : Singleton<GridManager>
 
         //Calculate tile size
         tileSize = Vector2.zero;
-        tileSize.x = gridSize.x / (float)gridCol; //Get tile's width based on space and with of grid
-        tileSize.y = gridSize.y / (float)gridRow; //Get tile's height based on space and with of grid
+        tileSize.x = transform.lossyScale.x / (float)gridCol; //Get tile's width based on space and with of grid
+        tileSize.y = transform.lossyScale.y / (float)gridRow; //Get tile's height based on space and with of grid
+
 
         //Calcualte tile's start position
         tileStartPos.x = transform.position.x + -(gridSize.x * 0.5f) + (tileSize.x * 0.5f);
@@ -112,7 +120,7 @@ public class GridManager : Singleton<GridManager>
             for (int col = 0; col < gridCol; ++col)
             {
                 //create one tile
-                GameObject tileGameObject = Instantiate(tilePrefab, transform);
+                GameObject tileGameObject = Instantiate(tilePrefab);
 
                 //Save it to grid as tile
                 Tile tileComp = tileGameObject.GetComponent<Tile>();
@@ -122,8 +130,10 @@ public class GridManager : Singleton<GridManager>
                 tileComp.SetTileIdx(row, col);
 
                 //Set the size of tile
-                SpriteRenderer tileRenderer = tileGameObject.GetComponent<SpriteRenderer>();
-                tileRenderer.size = tileSize;
+                //SpriteRenderer tileRenderer = tileGameObject.GetComponent<SpriteRenderer>();
+                //tileRenderer.size = tileSize;
+                tileGameObject.transform.localScale = tileSize;
+                tileGameObject.transform.SetParent(transform);
 
                 //////////////////////////Set random sprite//////////////////////////
                 //List<Sprite> possibleTileSprite = new List<Sprite>(); //make candidates for random sprite
@@ -156,11 +166,12 @@ public class GridManager : Singleton<GridManager>
     void GenerateSelectingIndication()
     {
         //create
-        selectingIndicationRow = Instantiate(selectingIndicationPrefab, transform);
+        selectingIndicationRow = Instantiate(selectingIndicationPrefab);
 
         //Set the scale of inidcation
-        Vector3 scale = new Vector3(gridRow, 1, 1);
+        Vector3 scale = new Vector3(transform.lossyScale.x, tileSize.y, 1);
         selectingIndicationRow.transform.localScale = scale;
+        selectingIndicationRow.transform.SetParent(transform);
 
 
         //Set the position of tile
@@ -178,12 +189,12 @@ public class GridManager : Singleton<GridManager>
 
 
         //create
-        selectingIndicationCol = Instantiate(selectingIndicationPrefab, transform);
+        selectingIndicationCol = Instantiate(selectingIndicationPrefab);
 
         //Set the scale of inidcation
-        scale = new Vector3(1, gridCol, 1);
+        scale = new Vector3(tileSize.x, transform.lossyScale.y, 1);
         selectingIndicationCol.transform.localScale = scale;
-
+        selectingIndicationCol.transform.SetParent(transform);
 
         //Set the position of tile
         pos = Vector3.zero;
@@ -198,7 +209,10 @@ public class GridManager : Singleton<GridManager>
 
 
         //create
-        selectingTileIndication = Instantiate(selectingTileIndicationPrefab, transform);
+        selectingTileIndication = Instantiate(selectingTileIndicationPrefab);
+
+        selectingTileIndication.transform.localScale = tileSize;
+        selectingTileIndication.transform.SetParent(transform);
 
         //Set the position of tile
         pos.x = transform.position.x;
@@ -207,6 +221,43 @@ public class GridManager : Singleton<GridManager>
 
         selectingTileIndication.transform.position = pos;
         selectingTileIndication.SetActive(false);
+    }
+
+    void GenerateBuffer()
+    {
+        //Get grid size
+        Vector3 bufferGridSize = bufferGameObject.GetComponent<SpriteRenderer>().bounds.size;
+        //Debug.Log(gridSize);
+
+        //Calculate tile size
+        Vector3 bufferTileSize = Vector2.zero;
+        bufferTileSize.x = bufferGameObject.transform.lossyScale.x / (float)bufferCount; //Get tile's width based on space and with of grid
+        bufferTileSize.y = bufferGameObject.transform.lossyScale.y;
+
+        //Calcualte tile's start position
+        Vector3 bufferTileStartPos = Vector3.zero;
+        bufferTileStartPos.x = bufferGameObject.transform.position.x + -(bufferGridSize.x * 0.5f) + (bufferTileSize.x * 0.5f);
+        bufferTileStartPos.y = bufferGameObject.transform.position.y;
+
+        for (int col = 0; col < bufferCount; ++col)
+        {
+            //create one tile
+            GameObject tileGameObject = Instantiate(bufferTilePrefab);
+
+            //Set the size of tile
+            tileGameObject.transform.localScale = bufferTileSize;
+            tileGameObject.transform.SetParent(bufferGameObject.transform);
+
+            //Set the position of tile
+            Vector3 tilePos = Vector3.zero;
+
+            tilePos.x = bufferTileStartPos.x + (col * bufferTileSize.x);
+            tilePos.y = bufferTileStartPos.y;
+            tilePos.z = -2.0f;
+
+            tileGameObject.transform.position = tilePos;
+        }
+        
     }
 
     Vector3 GetTilePos(int row, int col)
