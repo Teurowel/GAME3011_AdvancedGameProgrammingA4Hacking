@@ -34,7 +34,16 @@ public class Tile : MonoBehaviour
         if (GridManager.instance.ActivatedRowIdx == rowIdx ||
             GridManager.instance.ActivatedColIdx == colIdx)
         {
-            GridManager.instance.SelectTile(rowIdx, colIdx);
+            //Check if this tile is empty
+            if (spriteRenderer.sprite != null)
+            {
+                //If buffer is empty
+                if (GridManager.instance.CheckIfListOfBufferEmpty() == true)
+                {
+                    GridManager.instance.SelectTile(rowIdx, colIdx);
+                    SetTileSprite(null);
+                }
+            }
         }
 
         //if(GlobalData.instance.GetGameOver() == true)
@@ -104,7 +113,10 @@ public class Tile : MonoBehaviour
         if (GridManager.instance.ActivatedRowIdx == rowIdx ||
             GridManager.instance.ActivatedColIdx == colIdx)
         {
-            GridManager.instance.SetSelectingTileIndication(rowIdx, colIdx);
+            if (spriteRenderer.sprite != null)
+            {
+                GridManager.instance.SetSelectingTileIndication(rowIdx, colIdx);
+            }
         }
     }
 

@@ -281,12 +281,79 @@ public class GridManager : Singleton<GridManager>
         selectingTileIndication.transform.position = pos;
     }
 
+    public void SetSelectingIndicationRow(int row)
+    {
+        //Deactivated col
+        activatedColIdx = -1;
+        selectingIndicationCol.SetActive(false);
+
+        //Set the position of tile
+        Vector3 pos = Vector3.zero;
+
+        pos.x = transform.position.x;
+
+        Vector3 rowPos = GetTilePos(row, 0);
+        pos.y = rowPos.y;
+        pos.z = -1.0f;
+
+        selectingIndicationRow.transform.position = pos;
+
+        selectingIndicationRow.SetActive(true);
+
+        activatedRowIdx = row;
+    }
+
+    public void SetSelectingIndicationCol(int col)
+    {
+        //Deactivate row
+        activatedRowIdx = -1;
+        selectingIndicationRow.SetActive(false);
+
+        //Set the position of tile
+        Vector3 pos = Vector3.zero;
+
+        Vector3 colPos = GetTilePos(0, col);
+        pos.x = colPos.x;
+        pos.y = transform.position.y;
+        pos.z = -1.0f;
+
+        selectingIndicationCol.transform.position = pos;
+
+        selectingIndicationCol.SetActive(true);
+
+        activatedColIdx = col;
+    }
+
     public void SelectTile(int row, int col)
     {
         //add selected tile to buffer
         listOfBuffer[bufferEmptyIdx].GetComponent<SpriteRenderer>().sprite = grid[row, col].SpriteRenderer.sprite;
         ++bufferEmptyIdx;
+
+        //change slecting indication row and col
+        //if row was acitavted
+        if(activatedRowIdx != -1)
+        {
+            SetSelectingIndicationCol(col);
+        }
+        //If col was activated
+        else
+        {
+            SetSelectingIndicationRow(row);
+        }
     }
+
+    public bool CheckIfListOfBufferEmpty()
+    {
+        if (bufferEmptyIdx == listOfBuffer.Count)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
 
     //public void SwapWithSelectedTile(Tile currentTile)
     //{
