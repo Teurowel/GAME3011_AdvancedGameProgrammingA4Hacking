@@ -23,6 +23,12 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] GameObject bufferTilePrefab;
     [SerializeField] int bufferCount = 4;
 
+    [Header("Answer Sequence Setting")]
+    [SerializeField] List<AnswerSequence> listOfAnswerSequence;
+    [SerializeField] int answerSequenceCount = 1;
+    [SerializeField] int sequenceTileMinSize = 2;
+    [SerializeField] int sequenceTileMaxSize = 4;
+
     Tile[,] grid;
 
     public Tile selectedTile = null;
@@ -44,12 +50,14 @@ public class GridManager : Singleton<GridManager>
     public int ActivatedColIdx => activatedColIdx;
     int activatedColIdx = -1; //which row can be selcted?
 
+    public int NumOfTileType => numOfTileType;
     int numOfTileType = 0; //this will be different by difficulty
 
     /////////////////////////////Buffer////////////////////////////
     List<GameObject> listOfBuffer = new List<GameObject>();
     int bufferEmptyIdx = 0;
-
+    Vector3 bufferTileSize = Vector3.zero;
+    Vector3 bufferTileStartPos = Vector3.zero;
     ////////////////////////////////////////////////////////////////////////////////////
     //Comp
     SpriteRenderer spriteRendrer;
@@ -69,15 +77,28 @@ public class GridManager : Singleton<GridManager>
         switch (GlobalData.instance.difficulty)
         {
             case GlobalData.EDifficulty.EASY:
+                gridCol = 5;
+                gridRow = 5;
                 numOfTileType = 4;
+                bufferCount = 4;
+                answerSequenceCount = 1;
+                sequenceTileMinSize = 2;
+                sequenceTileMaxSize = 3;
                 break;
 
             case GlobalData.EDifficulty.MEDIUM:
+                gridCol = 6;
+                gridRow = 6;
                 numOfTileType = 5;
+                bufferCount = 6;
+                answerSequenceCount = 2;
+                sequenceTileMinSize = 2;
+                sequenceTileMaxSize = 4;
                 break;
 
             case GlobalData.EDifficulty.HARD:
                 numOfTileType = 5;
+                answerSequenceCount = 3;
                 break;
         }
 
@@ -85,6 +106,7 @@ public class GridManager : Singleton<GridManager>
         GenerateGrid();
         GenerateSelectingIndication();
         GenerateBuffer();
+        GenerateAnswerSequence();
 
         //Active last row
         activatedRowIdx = gridRow - 1;
@@ -231,12 +253,12 @@ public class GridManager : Singleton<GridManager>
         //Debug.Log(gridSize);
 
         //Calculate tile size
-        Vector3 bufferTileSize = Vector2.zero;
+        bufferTileSize = Vector2.zero;
         bufferTileSize.x = bufferGameObject.transform.lossyScale.x / (float)bufferCount; //Get tile's width based on space and with of grid
         bufferTileSize.y = bufferGameObject.transform.lossyScale.y;
 
         //Calcualte tile's start position
-        Vector3 bufferTileStartPos = Vector3.zero;
+        bufferTileStartPos = Vector3.zero;
         bufferTileStartPos.x = bufferGameObject.transform.position.x + -(bufferGridSize.x * 0.5f) + (bufferTileSize.x * 0.5f);
         bufferTileStartPos.y = bufferGameObject.transform.position.y;
 
@@ -260,6 +282,14 @@ public class GridManager : Singleton<GridManager>
             tileGameObject.transform.position = tilePos;
         }
         
+    }
+
+    void GenerateAnswerSequence()
+    {
+        for(int i =0; i < answerSequenceCount; ++i)
+        {
+            listOfAnswerSequence[i].GenerateSequence(Random.Range(sequenceTileMinSize, sequenceTileMaxSize), tileSprites, bufferTileSize, bufferTileStartPos);
+        }
     }
 
     Vector3 GetTilePos(int row, int col)
