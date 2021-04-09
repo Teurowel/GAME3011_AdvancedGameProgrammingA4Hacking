@@ -21,6 +21,7 @@ public class GridManager : Singleton<GridManager>
     [Header("Buffer Setting")]
     [SerializeField] GameObject bufferGameObject;
     [SerializeField] GameObject bufferTilePrefab;
+    [SerializeField] GameObject bufferTileIndicationPrefab;
     [SerializeField] int bufferCount = 4;
 
     [Header("Answer Sequence Setting")]
@@ -54,8 +55,10 @@ public class GridManager : Singleton<GridManager>
     int numOfTileType = 0; //this will be different by difficulty
 
     /////////////////////////////Buffer////////////////////////////
+    public List<GameObject> ListOfBuffer => listOfBuffer;
     List<GameObject> listOfBuffer = new List<GameObject>();
     int bufferEmptyIdx = 0;
+    public Vector3 BufferTileSize => bufferTileSize;
     Vector3 bufferTileSize = Vector3.zero;
     Vector3 bufferTileStartPos = Vector3.zero;
     ////////////////////////////////////////////////////////////////////////////////////
@@ -280,6 +283,16 @@ public class GridManager : Singleton<GridManager>
             tilePos.z = -2.0f;
 
             tileGameObject.transform.position = tilePos;
+
+
+
+            //create buffre tile indication
+            GameObject tileIndication = Instantiate(bufferTileIndicationPrefab);
+
+            //Set the size of tile
+            tileIndication.transform.localScale = bufferTileSize;
+            tileIndication.transform.SetParent(bufferGameObject.transform);
+            tileIndication.transform.position = tilePos;
         }
         
     }
@@ -358,11 +371,10 @@ public class GridManager : Singleton<GridManager>
     {
         //add selected tile to buffer
         listOfBuffer[bufferEmptyIdx].GetComponent<SpriteRenderer>().sprite = grid[row, col].SpriteRenderer.sprite;
-        ++bufferEmptyIdx;
 
         //change slecting indication row and col
         //if row was acitavted
-        if(activatedRowIdx != -1)
+        if (activatedRowIdx != -1)
         {
             SetSelectingIndicationCol(col);
         }
@@ -371,6 +383,15 @@ public class GridManager : Singleton<GridManager>
         {
             SetSelectingIndicationRow(row);
         }
+
+
+        //CHeck answer sequence
+        for (int i = 0; i < answerSequenceCount; ++i)
+        {
+            listOfAnswerSequence[i].CheckSequence(grid[row, col].SpriteRenderer.sprite, bufferEmptyIdx);
+        }
+
+        ++bufferEmptyIdx;
     }
 
     public bool CheckIfListOfBufferEmpty()

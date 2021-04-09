@@ -2168,6 +2168,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c06ea8c4142d2444084ad19098d21433, type: 3}
   bufferGameObject: {fileID: 718018634}
   bufferTilePrefab: {fileID: 3737890216022361941, guid: 037f7f691fafbb44a91e2d963cde07ff, type: 3}
+  bufferTileIndicationPrefab: {fileID: 3737890216022361941, guid: f6f940f6911d9464b9b7120c448712e3, type: 3}
   bufferCount: 6
   listOfAnswerSequence:
   - {fileID: 707586363}
