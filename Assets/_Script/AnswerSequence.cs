@@ -19,7 +19,7 @@ public class AnswerSequence : MonoBehaviour
     List<GameObject> sequence = new List<GameObject>();
     int sequenceSize = 0;
     int sequenceCheckIdx = 0;
-    int sequenceMatchingCount = 0;
+    int sequenceScore = 0;
     Vector3 sequenceTileStartPos = Vector3.zero;
 
     ESequenceStatus status = ESequenceStatus.Progress;
@@ -56,6 +56,8 @@ public class AnswerSequence : MonoBehaviour
 
             tileGameObject.transform.position = tilePos;
         }
+
+        sequenceScore = sequenceSize * 50;
     }
 
     public void CheckSequence(Sprite bufferSprite, int bufferCheckIdx)
@@ -77,6 +79,9 @@ public class AnswerSequence : MonoBehaviour
                 Debug.Log("Match succeeded");
                 status = ESequenceStatus.Succeeded;
                 GetComponent<SpriteRenderer>().color = Color.green;
+                GlobalData.instance.ModifyScore(sequenceScore);
+
+                GridManager.instance.IncreaseNumOfCompletedAnswerSequence();
             }
         }
         //If sequence have different sprite, move sequence back
@@ -88,6 +93,7 @@ public class AnswerSequence : MonoBehaviour
                 Debug.Log("Match failed");
                 status = ESequenceStatus.Failed;
                 GetComponent<SpriteRenderer>().color = Color.red;
+                GridManager.instance.IncreaseNumOfCompletedAnswerSequence();
                 return;
             }
 

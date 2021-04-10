@@ -17,20 +17,6 @@ public class GlobalData : Singleton<GlobalData>
     int score = 0;
 
 
-    [HideInInspector]
-    public UnityEvent<int> OnMoveCountChanged; //UIManager subscribe this
-
-    public int MoveCount => moveCount;
-    [SerializeField] int moveCount = 30;
-    int originMoveCount = 0; //When reset game, moveCount will be set to this
-
-    [HideInInspector]
-    public UnityEvent<int> OnMatchLeftChanged; //UIManager subscribe this
-
-    public int MatchLeft => matchLeft;
-    [SerializeField] int matchLeft = 10;
-    int originMatchLeft = 0; //When reset game, match left will be set to this
-
     //Match number
     public enum EDifficulty
     {
@@ -51,9 +37,6 @@ public class GlobalData : Singleton<GlobalData>
         base.Awake();
 
         DontDestroyOnLoad(gameObject);
-
-        originMoveCount = moveCount;
-        originMatchLeft = matchLeft;
     }
 
     // Start is called before the first frame update
@@ -88,36 +71,9 @@ public class GlobalData : Singleton<GlobalData>
         }
     }
 
-    public void ModifyMoveCount(int modifier)
-    {
-        moveCount += modifier;
-
-        if (OnMoveCountChanged != null)
-        {
-            OnMoveCountChanged.Invoke(moveCount);
-        }
-    }
-
-    public void ModifyMatchLeft(int modifier)
-    {
-        matchLeft += modifier;
-
-        if(matchLeft <= 0)
-        {
-            matchLeft = 0;
-        }
-
-        if (OnMatchLeftChanged != null)
-        {
-            OnMatchLeftChanged.Invoke(matchLeft);
-        }
-    }
-
     public void ResetGlobalData()
     {
         hasGameOver = false;
         score = 0;
-        moveCount = originMoveCount;
-        matchLeft = originMatchLeft;
     }
 }
