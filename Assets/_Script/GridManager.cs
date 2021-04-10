@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class GridManager : Singleton<GridManager>
 {
     [Header("Grid Setting")]
@@ -62,10 +62,13 @@ public class GridManager : Singleton<GridManager>
     Vector3 bufferTileSize = Vector3.zero;
     Vector3 bufferTileStartPos = Vector3.zero;
     ////////////////////////////////////////////////////////////////////////////////////
+    
     //Comp
     SpriteRenderer spriteRendrer;
 
 
+    [HideInInspector]
+    public UnityEvent OnTileClicked; //UIManager's timer will subscribte this to start timber
 
     protected override void Awake()
     {
@@ -301,7 +304,7 @@ public class GridManager : Singleton<GridManager>
     {
         for(int i =0; i < answerSequenceCount; ++i)
         {
-            listOfAnswerSequence[i].GenerateSequence(Random.Range(sequenceTileMinSize, sequenceTileMaxSize), tileSprites, bufferTileSize, bufferTileStartPos);
+            listOfAnswerSequence[i].GenerateSequence(Random.Range(sequenceTileMinSize, sequenceTileMaxSize + 1), tileSprites, bufferTileSize, bufferTileStartPos);
         }
     }
 
@@ -369,6 +372,11 @@ public class GridManager : Singleton<GridManager>
 
     public void SelectTile(int row, int col)
     {
+        if(OnTileClicked != null)
+        {
+            OnTileClicked.Invoke();
+        }
+
         //add selected tile to buffer
         listOfBuffer[bufferEmptyIdx].GetComponent<SpriteRenderer>().sprite = grid[row, col].SpriteRenderer.sprite;
 

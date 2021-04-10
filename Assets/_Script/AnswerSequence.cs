@@ -7,6 +7,13 @@ using UnityEngine;
 
 public class AnswerSequence : MonoBehaviour
 {
+    public enum ESequenceStatus
+    {
+        Progress,
+        Succeeded,
+        Failed
+    }
+
     [SerializeField] GameObject sequenceTilePrefab;
     
     List<GameObject> sequence = new List<GameObject>();
@@ -14,6 +21,8 @@ public class AnswerSequence : MonoBehaviour
     int sequenceCheckIdx = 0;
     int sequenceMatchingCount = 0;
     Vector3 sequenceTileStartPos = Vector3.zero;
+
+    ESequenceStatus status = ESequenceStatus.Progress;
 
     public void GenerateSequence(int _sequenceSize, List<Sprite> tileSprites, Vector3 bufferTileSize, Vector3 bufferTileStartPos)
     {
@@ -51,6 +60,12 @@ public class AnswerSequence : MonoBehaviour
 
     public void CheckSequence(Sprite bufferSprite, int bufferCheckIdx)
     {
+        //If this sequence is not progress...
+        if(status != ESequenceStatus.Progress)
+        {
+            return;
+        }
+
         //If sequence have same sprite
         if (sequence[sequenceCheckIdx].GetComponent<SpriteRenderer>().sprite == bufferSprite)
         {
@@ -60,6 +75,7 @@ public class AnswerSequence : MonoBehaviour
             if (sequenceCheckIdx == sequenceSize)
             {
                 Debug.Log("Match succeeded");
+                status = ESequenceStatus.Succeeded;
             }
         }
         //If sequence have different sprite, move sequence back
@@ -69,6 +85,7 @@ public class AnswerSequence : MonoBehaviour
             if(bufferCheckIdx + sequenceSize + 1 > GridManager.instance.ListOfBuffer.Count)
             {
                 Debug.Log("Match failed");
+                status = ESequenceStatus.Failed;
                 return;
             }
 

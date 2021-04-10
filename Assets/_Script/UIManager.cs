@@ -30,6 +30,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] TMP_Text moveCountText;
     [SerializeField] TMP_Text matchLeftText;
 
+    bool startTimer = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,27 +39,43 @@ public class UIManager : Singleton<UIManager>
         GlobalData.instance.OnScoreChanged.AddListener(OnScoreChangedCallback);
         GlobalData.instance.OnMoveCountChanged.AddListener(OnMoveCountChangedCallback);
         GlobalData.instance.OnMatchLeftChanged.AddListener(OnMatchLeftChangedCallback);
+
+        GridManager.instance.OnTileClicked.AddListener(OnTileClickedCallback);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         gameOverCanvas.enabled = false;
+        switch (GlobalData.instance.difficulty)
+        {
+            case GlobalData.EDifficulty.EASY:
+                timer = 45.0f;
+                break;
 
-        timerText.text = timer.ToString("F0");
+            case GlobalData.EDifficulty.MEDIUM:
+                timer = 30.0f;
+                break;
+
+            case GlobalData.EDifficulty.HARD:
+
+                break;
+        }
+
+        timerText.text = timer.ToString("F2");
         difficultyText.text = "Difficulty : " + GlobalData.instance.difficulty.ToString();
         matchNumText.text = "Match Num : " + ((int)(GlobalData.instance.difficulty)).ToString();
         moveCountText.text = "Move Count : " + GlobalData.instance.MoveCount.ToString();
         matchLeftText.text = "Match Left: " + GlobalData.instance.MatchLeft.ToString();
-
-        //Star timer
-        InvokeRepeating(nameof(Timer), 1.0f, 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(startTimer)
+        {
+            Timer();
+        }
     }
 
     void Timer()
@@ -74,12 +92,20 @@ public class UIManager : Singleton<UIManager>
         //    }
         //}
 
-        timer -= 1.0f;
-        timerText.text = timer.ToString("F0");
+        //timer -= 1.0f;
+        timer -= Time.deltaTime;
+
 
         if (timer <= 0)
         {
+            timer = 0.0f;
+            timerText.text = timer.ToString("F2");
             GameOver("Time is up, you lose");
+            
+        }
+        else
+        {
+            timerText.text = timer.ToString("F2");
         }
     }
 
@@ -140,5 +166,14 @@ public class UIManager : Singleton<UIManager>
     void OnMatchLeftChangedCallback(int matchLeft)
     {
         matchLeftText.text = "Match Left: " + matchLeft.ToString();
+    }
+
+    void OnTileClickedCallback()
+    {
+        GridManager.instance.OnTileClicked.RemoveListener(OnTileClickedCallback);
+
+        //When tile clicked, start timer
+        //InvokeRepeating(nameof(Timer), 1.0f, 1.0f);
+        startTimer = true;
     }
 }
