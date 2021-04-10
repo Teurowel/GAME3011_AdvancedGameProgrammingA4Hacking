@@ -7,6 +7,9 @@ TagManager:
   - EasyToggleTag
   - MediumToggleTag
   - HardToggleTag
+  - NoviceToggleTag
+  - AdeptToggleTag
+  - MasterToggleTag
   layers:
   - Default
   - TransparentFX

@@ -76,6 +76,7 @@ public class AnswerSequence : MonoBehaviour
             {
                 Debug.Log("Match succeeded");
                 status = ESequenceStatus.Succeeded;
+                GetComponent<SpriteRenderer>().color = Color.green;
             }
         }
         //If sequence have different sprite, move sequence back
@@ -86,6 +87,7 @@ public class AnswerSequence : MonoBehaviour
             {
                 Debug.Log("Match failed");
                 status = ESequenceStatus.Failed;
+                GetComponent<SpriteRenderer>().color = Color.red;
                 return;
             }
 

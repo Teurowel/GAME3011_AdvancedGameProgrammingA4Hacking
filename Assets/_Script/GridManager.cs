@@ -89,7 +89,7 @@ public class GridManager : Singleton<GridManager>
                 bufferCount = 4;
                 answerSequenceCount = 1;
                 sequenceTileMinSize = 2;
-                sequenceTileMaxSize = 3;
+                sequenceTileMaxSize = 4;
                 break;
 
             case GlobalData.EDifficulty.MEDIUM:
@@ -103,8 +103,13 @@ public class GridManager : Singleton<GridManager>
                 break;
 
             case GlobalData.EDifficulty.HARD:
+                gridCol = 6;
+                gridRow = 6;
                 numOfTileType = 5;
+                bufferCount = 6;
                 answerSequenceCount = 3;
+                sequenceTileMinSize = 2;
+                sequenceTileMaxSize = 4;
                 break;
         }
 

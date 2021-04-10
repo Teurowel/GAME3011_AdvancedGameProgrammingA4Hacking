@@ -8,6 +8,7 @@ public class GlobalData : Singleton<GlobalData>
     bool hasGameOver = false;
 
     public EDifficulty difficulty = EDifficulty.EASY;
+    public ESkillLevel skillLevel = ESkillLevel.Novice;
 
     [HideInInspector]
     public UnityEvent<int> OnScoreChanged; //UIManager subscibe this
@@ -33,9 +34,16 @@ public class GlobalData : Singleton<GlobalData>
     //Match number
     public enum EDifficulty
     {
-        EASY = 3,
-        MEDIUM = 4,
-        HARD = 5
+        EASY,
+        MEDIUM,
+        HARD
+    }
+
+    public enum ESkillLevel
+    {
+        Novice,
+        Adept,
+        Master
     }
 
     protected override void Awake()

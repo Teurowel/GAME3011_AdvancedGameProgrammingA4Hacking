@@ -47,6 +47,7 @@ public class UIManager : Singleton<UIManager>
     void Start()
     {
         gameOverCanvas.enabled = false;
+
         switch (GlobalData.instance.difficulty)
         {
             case GlobalData.EDifficulty.EASY:
@@ -58,7 +59,22 @@ public class UIManager : Singleton<UIManager>
                 break;
 
             case GlobalData.EDifficulty.HARD:
+                timer = 15.0f;
+                break;
+        }
 
+        switch (GlobalData.instance.skillLevel)
+        {
+            case GlobalData.ESkillLevel.Novice:
+                timer += 5.0f;
+                break;
+
+            case GlobalData.ESkillLevel.Adept:
+                timer += 10.0f;
+                break;
+
+            case GlobalData.ESkillLevel.Master:
+                timer += 15.0f;
                 break;
         }
 

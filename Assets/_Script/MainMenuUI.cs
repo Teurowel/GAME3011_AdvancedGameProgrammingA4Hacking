@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuUI : MonoBehaviour
 {
     [SerializeField] ToggleGroup difficultyToggleGroup;
+    [SerializeField] ToggleGroup skillLevelToggleGroup;
 
     [SerializeField] string gameSceneName;
 
@@ -41,6 +42,27 @@ public class MainMenuUI : MonoBehaviour
 
             case "HardToggleTag":
                 GlobalData.instance.difficulty = GlobalData.EDifficulty.HARD;
+                break;
+        }
+
+
+        //Get skill level toggle
+        IEnumerator<Toggle> skillLevelToggleEnum = skillLevelToggleGroup.ActiveToggles().GetEnumerator();
+        skillLevelToggleEnum.MoveNext();
+        Toggle skillLevelToggle = skillLevelToggleEnum.Current;
+
+        switch (skillLevelToggle.tag)
+        {
+            case "NoviceToggleTag":
+                GlobalData.instance.skillLevel = GlobalData.ESkillLevel.Novice;
+                break;
+
+            case "AdeptToggleTag":
+                GlobalData.instance.skillLevel = GlobalData.ESkillLevel.Adept;
+                break;
+
+            case "MasterToggleTag":
+                GlobalData.instance.skillLevel = GlobalData.ESkillLevel.Master;
                 break;
         }
 
