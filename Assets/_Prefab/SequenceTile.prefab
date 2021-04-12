@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6973980132570885098}
   - component: {fileID: 6246328604394212906}
   m_Layer: 0
-  m_Name: BufferTile
+  m_Name: SequenceTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.81960785, g: 0.9254902, b: 0.34509805, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

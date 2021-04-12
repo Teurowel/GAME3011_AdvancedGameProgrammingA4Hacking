@@ -115,7 +115,7 @@ public class UIManager : Singleton<UIManager>
         startTimer = false;
         gameOverCanvas.enabled = true;
 
-        finalScoreText.text = "Final Score : " + GlobalData.instance.Score.ToString() + " + " + timer.ToString("F02") + " = " + (GlobalData.instance.Score + timer).ToString("F02");
+        finalScoreText.text = "Final Score : " + (GlobalData.instance.Score + timer).ToString("F02");
     }
 
 
