@@ -391,6 +391,10 @@ public class GridManager : Singleton<GridManager>
         //add selected tile to buffer
         listOfBuffer[bufferEmptyIdx].GetComponent<SpriteRenderer>().sprite = grid[row, col].SpriteRenderer.sprite;
 
+        //sound
+        SoundManager.instance.Play("SelectSFX");
+
+
         //change slecting indication row and col
         //if row was acitavted
         if (activatedRowIdx != -1)
